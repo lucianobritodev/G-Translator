@@ -2,18 +2,20 @@ import * as electron from "electron";
 import * as path from "path";
 
 const { app, BrowserWindow, Tray, Menu, shell } = electron;
+const height: number = 221;
+const width: number = 920;
 
 let mainWindow: Electron.BrowserWindow;
 
 function createWindow() {
-  const display = electron.screen.getPrimaryDisplay();
-  const width = display.bounds.width;
+  const initDisplay = electron.screen.getPrimaryDisplay();
+  const initWidth = initDisplay.bounds.width;
   
   mainWindow = new BrowserWindow({
-    x: width - 720,
+    x: initWidth - 920,
     y: 0,
-    height: 221,
-    width: 920,
+    height,
+    width,
     frame: true,
     roundedCorners: false,
     resizable: false,
