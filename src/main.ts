@@ -5,6 +5,8 @@ const { app, BrowserWindow, Tray, Menu, shell } = electron;
 const height: number = 221;
 const width: number = 920;
 
+let showing: boolean = false;
+
 let mainWindow: Electron.BrowserWindow;
 
 function createWindow() {
@@ -22,10 +24,12 @@ function createWindow() {
     autoHideMenuBar: true,
     zoomToPageWidth: false,
     show: false,
+    modal: true,
     webPreferences: {
       preload: path.join(__dirname, "/preload.js"),
       contextIsolation: false,
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools: false
     },
   });
 
@@ -37,7 +41,7 @@ function render(tray: electron.Tray) {
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Open",
-      click: () => mainWindow.show()
+      click: () => showOrHide()
     },
     {
       label: "Open in web browser",
@@ -52,12 +56,19 @@ function render(tray: electron.Tray) {
 
   tray.setIgnoreDoubleClickEvents(true)
   tray.setToolTip('G-Translator')
-  tray.setTitle('G-Translator')
   tray.setContextMenu(contextMenu);
 
-  tray.on('click', () => contextMenu.popup());
+  tray.on('click', () => showOrHide());
   tray.on('right-click', () => contextMenu.popup());
 
+}
+
+function showOrHide() {
+  showing = !showing;
+  if(!showing)
+    return mainWindow.hide();
+  
+  return mainWindow.show();
 }
 
 
@@ -80,7 +91,7 @@ app.whenReady().then(() => {
 
   mainWindow.on('close', (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    mainWindow.hide();
+    showOrHide();
   });
 
 });

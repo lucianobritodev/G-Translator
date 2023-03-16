@@ -1,6 +1,6 @@
 {
   "name": "g-translator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A desktop client for Google Translator",
   "main": "dist/main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "clean": "rimraf build",
     "bundle:x64": "electron-packager . g-translator --asar --overwrite --platform=linux --arch=x64 --icon=dist/assets/icons/g-translator.png --prune=true --out=build/",
     "deb:x64": "electron-installer-debian --src build/g-translator-linux-x64/ --arch amd64 --config config.json",
-    "dist": "npm run clean && npm run build && npm run bundle:x64 && npm run deb:x64"
+    "dist:linux": "npm run clean && npm run bundle:x64 && npm run deb:x64"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [
